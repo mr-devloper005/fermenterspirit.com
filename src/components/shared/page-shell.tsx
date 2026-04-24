@@ -16,16 +16,16 @@ export function PageShell({
   children?: ReactNode
 }) {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#f2f2f2] text-[#1f130f]">
       <NavbarShell />
       <main>
-        <section className="border-b border-border bg-secondary/30">
+        <section className="border-b border-[#dfcfbf] bg-[#fff7ef]">
           <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
             <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <h1 className="text-3xl font-bold text-foreground">{title}</h1>
+                <h1 className="text-4xl font-semibold tracking-[-0.03em] text-[#2f1d16]">{title}</h1>
                 {description && (
-                  <p className="mt-2 max-w-2xl text-muted-foreground">{description}</p>
+                  <p className="mt-2 max-w-2xl text-[#6f5648]">{description}</p>
                 )}
               </div>
               {actions && <div className="flex flex-wrap gap-3">{actions}</div>}

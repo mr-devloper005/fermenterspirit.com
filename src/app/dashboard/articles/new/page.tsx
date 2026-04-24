@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import {
-  ArrowLeft,
   Save,
   Eye,
   Image as ImageIcon,
@@ -175,12 +174,7 @@ export default function NewArticlePage() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" asChild>
-              <Link href="/dashboard">
-                <ArrowLeft className="h-5 w-5" />
-              </Link>
-            </Button>
+          <div>
             <div>
               <h1 className="text-2xl font-bold text-foreground">New Article</h1>
               <p className="text-sm text-muted-foreground">
