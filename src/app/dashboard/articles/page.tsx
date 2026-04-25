@@ -59,8 +59,13 @@ export default function DashboardArticlesPage() {
   const [draftTitle, setDraftTitle] = useState('')
   const [activeSheetId, setActiveSheetId] = useState<string | null>(null)
 
-  const isUserArticle = (article: Article) =>
-    article.id.startsWith('user-') || (user && article.author.id === user.id)
+  const isUserArticle = (article: Article) => {
+    const authorId =
+      article.author && typeof article.author === 'object' && typeof article.author.id === 'string'
+        ? article.author.id
+        : null
+    return article.id.startsWith('user-') || (Boolean(user?.id) && authorId === user?.id)
+  }
   const userArticles = useMemo(() => articles.filter((article) => isUserArticle(article)), [articles, user])
   const allSelected = selectedIds.length === userArticles.length && userArticles.length > 0
   const selectedCount = selectedIds.length

@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Plus, Save } from "lucide-react";
+import { Plus, Save } from "lucide-react";
 import { NavbarShell } from "@/components/shared/navbar-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -274,12 +274,7 @@ export default function CreateTaskPage() {
     <div className="min-h-screen bg-background">
       <NavbarShell />
       <main className="mx-auto max-w-4xl px-4 py-12">
-        <div className="mb-8 flex items-center gap-3">
-          <Button variant="ghost" size="icon" asChild>
-            <Link href="/">
-              <ArrowLeft className="h-5 w-5" />
-            </Link>
-          </Button>
+        <div className="mb-8">
           <div>
             <h1 className="text-2xl font-semibold text-foreground">{formConfig.title}</h1>
             <p className="text-sm text-muted-foreground">{formConfig.description}</p>
