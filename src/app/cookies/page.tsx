@@ -1,29 +1,41 @@
-﻿import { PageShell } from '@/components/shared/page-shell'
-import { Card, CardContent } from '@/components/ui/card'
+import { PageShell } from '@/components/shared/page-shell'
 
 const sections = [
-  { title: 'Essential Cookies', body: 'Required for authentication and core features.' },
-  { title: 'Analytics Cookies', body: 'Help us understand how the platform is used.' },
-  { title: 'Preference Cookies', body: 'Remember your settings and saved filters.' },
+  {
+    title: '1. Essential Cookies',
+    body: 'Required for login, session continuity, and secure access to publishing features. These cannot be disabled while using the platform.',
+  },
+  {
+    title: '2. Performance Cookies',
+    body: 'Help us understand reading behavior, page performance, and technical improvements so the site stays fast and stable.',
+  },
+  {
+    title: '3. Preference Cookies',
+    body: 'Remember settings such as your language, saved filters, and UI preferences for a smoother return experience.',
+  },
+  {
+    title: '4. Managing Cookies',
+    body: 'You can manage or delete cookies from your browser settings. Some site functionality may degrade when essential cookies are blocked.',
+  },
 ]
 
 export default function CookiesPage() {
   return (
     <PageShell
       title="Cookie Policy"
-      description="Details about the cookies we use."
+      description="Information about how cookies are used to keep your experience secure, functional, and personalized."
     >
-      <Card className="border-border bg-card">
-        <CardContent className="p-6 space-y-4">
-          <p className="text-xs text-muted-foreground">Last updated: March 16, 2026</p>
+      <section className="border border-[#dfcfbf] bg-white p-6 sm:p-8">
+        <p className="text-xs uppercase tracking-[0.2em] text-[#8a6f5e]">Last updated: April 24, 2026</p>
+        <div className="mt-6 space-y-4">
           {sections.map((section) => (
-            <div key={section.title} className="rounded-lg border border-border bg-secondary/40 p-4">
-              <h3 className="text-sm font-semibold text-foreground">{section.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{section.body}</p>
-            </div>
+            <article key={section.title} className="border border-[#eadccf] bg-[#fff7ef] p-5">
+              <h2 className="text-lg font-semibold text-[#2f1d16]">{section.title}</h2>
+              <p className="mt-2 text-sm leading-7 text-[#6f5648]">{section.body}</p>
+            </article>
           ))}
-        </CardContent>
-      </Card>
+        </div>
+      </section>
     </PageShell>
   )
 }
