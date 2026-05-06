@@ -38,6 +38,18 @@ type PostContent = {
   longitude?: number | string;
 };
 
+const estimateReadingTime = (html: string) => {
+  const text = html
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (!text) return null;
+  const words = text.split(" ").filter(Boolean).length;
+  const minutes = Math.max(1, Math.round(words / 220));
+  return `${minutes} min read`;
+};
+
 const isValidImageUrl = (value?: string | null) =>
   typeof value === "string" && (value.startsWith("/") || /^https?:\/\//i.test(value));
 
@@ -162,6 +174,7 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
         day: "numeric",
       })
     : "";
+  const readingTime = isArticle ? estimateReadingTime(articleHtml) : null;
   const postTags = Array.isArray(post.tags) ? post.tags.filter((tag) => typeof tag === "string") : [];
   const location = content.address || content.location;
   const images = getImageUrls(post, content);
@@ -250,7 +263,7 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
   return (
     <div className="min-h-screen bg-background">
       <NavbarShell />
-      <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-7xl px-4 pb-10 pt-8 sm:px-6 sm:pb-14 sm:pt-10 lg:px-8">
         <SchemaJsonLd data={schemaPayload} />
         <Link
           href={taskConfig?.route || "/"}
@@ -267,20 +280,33 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
         >
           <div className={cn(isClassified ? "space-y-8" : "")}>
             {isArticle ? (
-              <div className="mx-auto w-full max-w-4xl space-y-6">
-                <h1 className="text-4xl font-semibold leading-tight text-foreground">
-                  {post.title}
-                </h1>
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
-                  <span>By {articleAuthor}</span>
-                  {articleDate ? <span>{articleDate}</span> : null}
-                  <Badge variant="secondary" className="inline-flex items-center gap-1">
+              <article className="mx-auto w-full max-w-[760px] space-y-7 pt-6 sm:pt-10">
+                <header className="space-y-5 text-center sm:space-y-6">
+                  <Badge
+                    variant="secondary"
+                    className="mx-auto inline-flex w-fit items-center gap-1 px-3 py-1 text-xs"
+                  >
                     <Tag className="h-3.5 w-3.5" />
                     {category}
                   </Badge>
-                </div>
+                  <h1 className="text-balance text-4xl font-semibold leading-tight tracking-tight text-foreground sm:text-5xl">
+                    {post.title}
+                  </h1>
+                  {articleSummary ? (
+                    <p className="mx-auto max-w-2xl text-pretty text-base leading-7 text-muted-foreground sm:text-lg">
+                      {articleSummary}
+                    </p>
+                  ) : null}
+                  <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-sm text-muted-foreground">
+                    <span>By {articleAuthor}</span>
+                    {articleDate ? <span aria-hidden="true">•</span> : null}
+                    {articleDate ? <span>{articleDate}</span> : null}
+                    {readingTime ? <span aria-hidden="true">•</span> : null}
+                    {readingTime ? <span>{readingTime}</span> : null}
+                  </div>
+                </header>
                 {postTags.length ? (
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap justify-center gap-2">
                     {postTags.map((tag) => (
                       <Badge key={tag} variant="outline">
                         {tag}
@@ -288,11 +314,8 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
                     ))}
                   </div>
                 ) : null}
-                {articleSummary ? (
-                  <p className="text-base leading-7 text-muted-foreground">{articleSummary}</p>
-                ) : null}
                 {images[0] ? (
-                  <div className="relative aspect-[16/9] w-full overflow-hidden rounded-3xl border border-border bg-muted">
+                  <div className="relative mx-auto aspect-[16/9] w-full overflow-hidden rounded-3xl border border-border bg-muted shadow-sm">
                     <ContentImage
                       src={images[0]}
                       alt={`${post.title} featured image`}
@@ -303,9 +326,15 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
                     />
                   </div>
                 ) : null}
-                <RichContent html={articleHtml} className="leading-8 prose-p:my-6 prose-h2:my-8 prose-h3:my-6 prose-ul:my-6" />
-                <ArticleComments slug={post.slug} />
-              </div>
+                <div className="mx-auto h-px w-full max-w-2xl bg-border/70" />
+                <RichContent
+                  html={articleHtml}
+                  className="mx-auto text-[17px] leading-8 prose-p:my-6 prose-h2:my-10 prose-h3:my-8 prose-ul:my-6 prose-ol:my-6"
+                />
+                <div className="pt-2">
+                  <ArticleComments slug={post.slug} />
+                </div>
+              </article>
             ) : null}
 
             {!isArticle ? (

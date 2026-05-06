@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ArrowLeft, Clock3, User2 } from 'lucide-react'
+import { ArrowLeft, User2 } from 'lucide-react'
 import { ContentImage } from '@/components/shared/content-image'
 import { ArticleComments } from '@/components/tasks/article-comments'
 import { RichContent, formatRichHtml } from '@/components/shared/rich-content'
@@ -33,9 +33,6 @@ export async function TaskDetailPageOverride({ task, slug }: { task: TaskKey; sl
 
   const content = post.content && typeof post.content === 'object' ? post.content as any : {}
   const author = typeof content.author === 'string' && content.author ? content.author : (post.authorName || 'Editorial Desk')
-  const published = post.publishedAt
-    ? new Date(post.publishedAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
-    : 'Recently updated'
   const html = formatRichHtml(
     typeof content.body === 'string' && content.body.trim()
       ? content.body
@@ -63,7 +60,6 @@ export async function TaskDetailPageOverride({ task, slug }: { task: TaskKey; sl
 
             <div className="mt-4 flex flex-wrap items-center gap-5 text-sm text-[#71584b]">
               <span className="inline-flex items-center gap-2"><User2 className="h-4 w-4" />{author}</span>
-              <span className="inline-flex items-center gap-2"><Clock3 className="h-4 w-4" />{published}</span>
             </div>
 
             <div className="mt-6 overflow-hidden border border-[#ebdfd3]">

@@ -26,7 +26,7 @@ function getImage(post: any) {
 }
 
 export async function HomePageOverride() {
-  const posts = await fetchTaskPosts('article', 18, { allowMockFallback: true, fresh: true })
+  const posts = await fetchTaskPosts('article', 18, { allowMockFallback: false, fresh: true })
   const lead = posts[0]
   const sidebarPosts = posts.slice(1, 6)
   const featuredGrid = posts.slice(6, 10)
@@ -93,10 +93,11 @@ export async function HomePageOverride() {
             </aside>
           </div>
 
+          {featuredGrid.length > 0 && (
           <section className="mt-12">
             <h2 className="text-4xl font-semibold tracking-[-0.03em]">You Might Also Like</h2>
             <div className="mt-6 grid gap-6 md:grid-cols-2">
-              {featuredGrid.map((post) => (
+              {featuredGrid.map((post: any) => (
                 <Link key={post.id} href={buildPostUrl('article', post.slug)} className="block border border-[#e5d6c7] bg-white p-5 transition hover:-translate-y-1 hover:shadow-[0_16px_30px_rgba(77,47,27,0.12)]">
                   <div className="relative mb-4 aspect-[16/9] overflow-hidden">
                     <ContentImage src={getImage(post)} alt={post.title} fill className="object-cover" />
@@ -107,18 +108,24 @@ export async function HomePageOverride() {
               ))}
             </div>
           </section>
+        )}
 
+          {randomPosts.length > 0 && (
           <section className="mt-12">
             <h2 className="text-4xl font-semibold tracking-[-0.03em]">Random Posts</h2>
             <div className="mt-6 grid gap-6 md:grid-cols-2">
-              {randomPosts.map((post) => (
-                <Link key={post.id} href={buildPostUrl('article', post.slug)} className="block border border-[#e5d6c7] bg-white p-5">
+              {randomPosts.map((post: any) => (
+                <Link key={post.id} href={buildPostUrl('article', post.slug)} className="block border border-[#e5d6c7] bg-white p-5 transition hover:-translate-y-1 hover:shadow-[0_16px_30px_rgba(77,47,27,0.12)]">
+                  <div className="relative mb-4 aspect-[16/9] overflow-hidden">
+                    <ContentImage src={getImage(post)} alt={post.title} fill className="object-cover" />
+                  </div>
                   <h3 className="text-2xl font-semibold leading-snug">{post.title}</h3>
                   <p className="mt-3 text-sm leading-7 text-[#6f5648]">{post.summary || 'Continue exploring carefully selected articles.'}</p>
                 </Link>
               ))}
             </div>
           </section>
+        )}
         </div>
       </main>
       <Footer />
