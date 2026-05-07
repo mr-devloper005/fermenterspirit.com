@@ -1,6 +1,8 @@
 import { Mail, Phone, Clock3, PenSquare } from 'lucide-react'
 import { PageShell } from '@/components/shared/page-shell'
 
+const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'contact@fermenterspirit.com'
+
 const supportLanes = [
   {
     title: 'Editorial Pitches',
@@ -58,6 +60,17 @@ export default function ContactPage() {
               Send Message
             </button>
           </form>
+          
+          <div className="mt-6 pt-6 border-t border-[#dfcfbf]">
+            <p className="text-sm text-[#6f5648] mb-3">Or email us directly:</p>
+            <a 
+              href={`mailto:${contactEmail}`}
+              className="inline-flex items-center gap-2 h-12 px-6 rounded-full border border-[#2f1d16] text-sm font-semibold text-[#2f1d16] hover:bg-[#2f1d16] hover:text-[#fff1e2] transition-colors"
+            >
+              <Mail className="h-4 w-4" />
+              {contactEmail}
+            </a>
+          </div>
         </div>
       </section>
     </PageShell>
