@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { TaskPostCard } from '@/components/shared/task-post-card'
 import { fetchTaskPosts } from '@/lib/task-data'
-import { normalizeCategory } from '@/lib/categories'
+import { CATEGORY_OPTIONS, normalizeCategory } from '@/lib/categories'
 import type { TaskKey } from '@/lib/site-config'
 import { NavbarShell } from '@/components/shared/navbar-shell'
 import { Footer } from '@/components/shared/footer'
@@ -49,6 +49,37 @@ export async function TaskListPageOverride({ task, category }: { task: TaskKey; 
               <p className="mt-4 max-w-2xl text-sm leading-8 text-[#6f5648]">
                 Explore new writing from our editorial desk. Every piece is designed for clarity, usefulness, and strong reading flow.
               </p>
+              <form action="/articles" className="mt-6 flex flex-col gap-3 sm:flex-row">
+                <select
+                  name="category"
+                  defaultValue={normalizedCategory}
+                  className="h-11 rounded-full border border-[#d9c6b5] bg-[#fffaf4] px-4 text-sm text-[#2f1d16] outline-none"
+                >
+                  <option value="all">All topics</option>
+                  {CATEGORY_OPTIONS.map((item) => (
+                    <option key={item.slug} value={item.slug}>
+                      {item.name}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  type="submit"
+                  className="h-11 rounded-full bg-[#2f1d16] px-5 text-sm font-semibold text-[#fff1e2] transition hover:bg-[#4a2d22]"
+                >
+                  Search by category
+                </button>
+              </form>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {CATEGORY_OPTIONS.slice(0, 6).map((item) => (
+                  <Link
+                    key={item.slug}
+                    href={`/articles?category=${item.slug}`}
+                    className="rounded-full border border-[#e2d2c3] bg-[#fffaf3] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#6f5648] hover:bg-[#f6e9db]"
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
             </div>
             <div className="border border-[#eadccf] bg-[#fff7ef] p-5">
               <p className="text-[11px] uppercase tracking-[0.2em] text-[#8a6f5e]">Current filter</p>
