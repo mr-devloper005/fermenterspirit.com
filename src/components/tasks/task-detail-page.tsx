@@ -292,11 +292,6 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
                   <h1 className="text-balance text-4xl font-semibold leading-tight tracking-tight text-foreground sm:text-5xl">
                     {post.title}
                   </h1>
-                  {articleSummary ? (
-                    <p className="mx-auto max-w-2xl text-pretty text-base leading-7 text-muted-foreground sm:text-lg">
-                      {articleSummary}
-                    </p>
-                  ) : null}
                   <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-sm text-muted-foreground">
                     <span>By {articleAuthor}</span>
                     {articleDate ? <span aria-hidden="true">•</span> : null}
